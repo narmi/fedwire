@@ -5,7 +5,8 @@ from fedwire import __version__ as version
 with open('CHANGELOG.md') as f:
     history = f.read()
 
-description = 'A python package that implements an interface to read/write files for the Fedwire Funds Service'
+description = 'A python package that implements an interface to' \
+              'read/write files for the Fedwire Funds Service'
 
 setuptools.setup(
         name='fedwire',
@@ -14,9 +15,14 @@ setuptools.setup(
         author='Narmitech',
         author_email='support@naritech.com',
         url='https://github.com/narmitech/fedwire-python',
-        install_requires=[
-            # 'bryl==0.1.0'
-        ],
+        install_requires=[],
+        extras_require={
+            'dev': [
+                'coverage==4.0.3',
+                'flake8==3.2.1',
+                'flake8-per-file-ignores',
+            ]
+        },
         packages=['fedwire'],
         license='Apache 2.0'
 )

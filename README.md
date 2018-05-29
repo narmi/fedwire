@@ -6,6 +6,7 @@ A python package that implements an interface to write files for the [Fedwire Fu
 
 ```
 from datetime import datetime
+from decimal import Decimal
 
 from fedwire import FedwireFile, Entry, Tag
 
@@ -13,16 +14,16 @@ wire_file = FedwireFile()
 entries = [
     Entry([
       Tag.sender_supplied_information(production=True),
-      Tag.type(value),
+      Tag.type(Tag.TYPE_FUNDS_TRANSFER, TAG.SUBTYPE_BASIC_FUNDS_TRANSFER),
       Tag.imad(datetime.now(), source, sequence),
-      Tag.amount(value),
+      Tag.amount(Decimal('123')),
       Tag.sender_institution(routing, name),
       Tag.receiver_institution(routing, name),
       Tag.business_function_code(business, transaction),
     ])
 ]
 wire_file.add_batch(entries)
-print str(wire_file)
+print(wire_file)
 ```
 
 ## Format details
