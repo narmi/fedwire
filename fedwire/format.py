@@ -20,8 +20,12 @@ TAG_TYPE = 1510
 TAG_IMAD = 1520  # Input Message Accountability Data
 TAG_AMOUNT = 2000
 TAG_SENDER_DEPOSITORY_INSTITUTION = 3100
+TAG_SENDER_REFERENCE = 3320
 TAG_RECEIVER_DEPOSITORY_INSTITUTION = 3400
 TAG_BUSINESS_FUNCTION_CODE = 3600
+TAG_BENEFICIARY = 4200
+TAG_ORIGINATOR = 5000
+TAG_ORIGINATOR_TO_BENEFICIARY = 6000
 
 FORMAT_VERSION = '30'
 ENVIRONMENT_TEST = 'T'
@@ -131,6 +135,19 @@ class Tag:
     """
     SUBTYPE_SERVICE_MESSAGE = '90'
 
+    ID_SWIFT_BANK_IDENTIFIER_CODE = 'B'  # BIC
+    ID_CHIPS_PARTICIPANT = 'C'
+    ID_DEMAND_DEPOSIT_ACCOUNT_NUMBER = 'D'  # DDA
+    ID_FED_ROUTING_NUMBER = 'F'
+    ID_SWIFT_BIC_OR_BANK_ENTITY_IDENTIFIER_AND_ACCOUNT_NUMBER = 'T'  # BEI
+    ID_CHIPS_IDENTIFIER = 'U'
+    ID_PASSPORT_NUMBER = '1'
+    ID_TAX_IDENTIFICATION_NUMBER = '2'
+    ID_DRIVERS_LICENSE_NUMBER = '3'
+    ID_ALIEN_REGISTRATION_NUMBER = '4'
+    ID_CORPORATE_IDENTIFICATION = '5'
+    ID_OTHER_IDENTIFICATION = '9'
+
     @classmethod
     def sender_supplied_information(klass, production=False, resend=False):
         user_request_correlation = ' ' * 8  # all spaces is blank
@@ -177,6 +194,31 @@ class Tag:
     @classmethod
     def business_function_code(klass, business, transaction=''):
         return klass(TAG_BUSINESS_FUNCTION_CODE, business + transaction, 6)
+
+    @classmethod
+    def sender_reference(klass, value):
+        return klass(TAG_SENDER_REFERENCE, value, 16)
+
+    @classmethod
+    def beneficiary(klass, code, identifier, name, address):
+        # ID Code (B, C, D, F, T, U, 1, 2, 3, 4, 5, 9)
+        # Identifier (34 characters)
+        # Name (35 characters)
+        # Address (3 lines of 35 characters each)
+        return klass(TAG_BENEFICIARY, code + identifier + name + address, 175)
+
+    @classmethod
+    def originator(klass, code, identifier, name, address):
+        # ID Code (B, C, D, F, T, U, 1, 2, 3, 4, 5, 9)
+        # Identifier (34 characters)
+        # Name (35 characters)
+        # Address (3 lines of 35 characters each)
+        return klass(TAG_BENEFICIARY, code + identifier + name + address, 175)
+
+    @classmethod
+    def originator_to_beneficiary(klass, value):
+        # up to 4 lines of 35 characters each
+        return klass(TAG_ORIGINATOR_TO_BENEFICIARY, value, 140)
 
     def __init__(self, name, value, max_length):
         self.name = name
