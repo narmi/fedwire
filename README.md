@@ -1,4 +1,5 @@
 # fedwire
+[![Build Status](https://travis-ci.org/narmitech/fedwire.svg?branch=master)](https://travis-ci.org/narmitech/fedwire)
 
 A python package that implements an interface to write files for the [Fedwire Funds Service](https://www.frbservices.org/financial-services/wires/index.html), [a real-time gross settlement funds transfer system operated by the United States Federal Reserve Banks](https://en.wikipedia.org/wiki/Fedwire). These [compatible files](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.445.7645&rep=rep1&type=pdf) include routing instructions that, once received and processed, will debit the funds from the sending bank's reserve account at their Federal Reserve bank and credit the receiving bank's account. Wire transfers sent via Fedwire are completed in the same day, while some are completed instantly.
 
