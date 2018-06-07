@@ -1,0 +1,10 @@
+language: python
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+install:
+  - pip install -e ".[dev]"
+script:
+  - flake8
+  - python -m unittest discover -s tests
