@@ -65,7 +65,7 @@ class TestTag(TestCase):
         self.assertIn('211111086', str(tag))
 
     def test_receiver_institution(self):
-        tag = Tag.receiver_institution('011111390', 'Bank of America*')
+        tag = Tag.receiver_institution('011111390', 'Bank of America')
         self.assertIn('011111390', str(tag))
 
     def test_business_function_code(self):
@@ -73,25 +73,25 @@ class TestTag(TestCase):
         self.assertIn(Tag.CODE_CTR, str(tag))
 
     def test_sender_reference(self):
-        tag = Tag.sender_reference('111113*')
+        tag = Tag.sender_reference('111113')
         self.assertIn('111113', str(tag))
 
     def test_beneficiary(self):
         tag = Tag.beneficiary(
             Tag.ID_DEMAND_DEPOSIT_ACCOUNT_NUMBER,
-            '987654111*',
-            'Test Guy 1*',
-            '1 GONE Street**Charlestown, MA 02129*')
+            '987654111',
+            'Test Guy 1',
+            '1 GONE Street\n\nCharlestown, MA 02129')
         self.assertIn('987654111', str(tag))
 
     def test_originator(self):
         tag = Tag.originator(
             Tag.ID_DEMAND_DEPOSIT_ACCOUNT_NUMBER,
-            '6111111113*',
-            'KEVIN DOUGH*',
-            '8 FOOD RD**SOMEWHERE, MA 10821*')
+            '6111111113',
+            'KEVIN DOUGH',
+            '8 FOOD RD\nSOMEWHERE, MA 10821')
         self.assertIn('6111111113', str(tag))
 
     def test_originator_to_beneficiary(self):
-        tag = Tag.originator_to_beneficiary('Test 2*')
+        tag = Tag.originator_to_beneficiary('Test 2')
         self.assertIn('Test 2', str(tag))

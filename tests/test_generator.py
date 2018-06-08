@@ -14,20 +14,20 @@ class TestFedwireFile(TestCase):
                 Tag.imad(datetime.now(), '4', ''),
                 Tag.amount(Decimal('10.00')),
                 Tag.sender_institution('211111086', ''),
-                Tag.sender_reference('111113*'),
-                Tag.receiver_institution('011111390', 'Bank of America*'),
+                Tag.sender_reference('111113'),
+                Tag.receiver_institution('011111390', 'Bank of America'),
                 Tag.business_function_code(Tag.CODE_CTR),
                 Tag.beneficiary(
                   Tag.ID_DEMAND_DEPOSIT_ACCOUNT_NUMBER,
-                  '987654111*',
-                  'Test Guy 1*',
-                  '1 Walker Street**Charlestown, MA 02129*'),
+                  '987654111',
+                  'Test Guy 1',
+                  '1 Walker Street\n\nCharlestown, MA 02129'),
                 Tag.originator(
                     Tag.ID_DEMAND_DEPOSIT_ACCOUNT_NUMBER,
-                    '6111111113*',
-                    'KEVIN DOUGH*',
-                    '8 FOOD RD**SOMEWHERE, MA 10821*'),
-                Tag.originator_to_beneficiary('Test 2*'),
+                    '6111111113',
+                    'KEVIN DOUGH',
+                    '8 FOOD RD\n\nSOMEWHERE, MA 10821'),
+                Tag.originator_to_beneficiary('Test 2'),
             ])
         ]
 

@@ -33,6 +33,10 @@ ENVIRONMENT_PRODUCTION = 'P'
 DUPLICATION_ORIGINAL = ' '
 DUPLICATION_RESEND = 'P'
 
+# See https://fraser.stlouisfed.org/files/docs/historical/ny%20circulars/nycirc_1995_10759.pdf
+# page 16 of PDF, labeled page 14
+VARIABLE_LENGTH_DELIMITER = '*'
+
 
 class Entry:
     REQUIRED_TAGS = [
@@ -184,11 +188,11 @@ class Tag:
     def sender_institution(klass, routing, name):
         # Sender ABA Number (9 characters)
         # Sender Short Name (18 characters)
-        return klass(TAG_SENDER_DEPOSITORY_INSTITUTION, routing + name, 27)
+        return klass(TAG_SENDER_DEPOSITORY_INSTITUTION, routing + mark_variable(name, 18), 27)
 
     @classmethod
     def receiver_institution(klass, routing, name):
-        return klass(TAG_RECEIVER_DEPOSITORY_INSTITUTION, routing + name, 27)
+        return klass(TAG_RECEIVER_DEPOSITORY_INSTITUTION, routing + mark_variable(name, 18), 27)
 
     @classmethod
     def business_function_code(klass, business, transaction=''):
@@ -196,7 +200,7 @@ class Tag:
 
     @classmethod
     def sender_reference(klass, value):
-        return klass(TAG_SENDER_REFERENCE, value, 16)
+        return klass(TAG_SENDER_REFERENCE, mark_variable(value, 16), 16)
 
     @classmethod
     def beneficiary(klass, code, identifier, name, address):
@@ -204,7 +208,11 @@ class Tag:
         # Identifier (34 characters)
         # Name (35 characters)
         # Address (3 lines of 35 characters each)
-        return klass(TAG_BENEFICIARY, code + identifier + name + address, 175)
+        marked_identifier = mark_variable(identifier, 34)
+        marked_name = mark_variable(name, 35)
+        address_lines = address.split('\n')
+        marked_address = ''.join([mark_variable(l, 35) for l in address_lines])
+        return klass(TAG_BENEFICIARY, code + marked_identifier + marked_name + marked_address, 175)
 
     @classmethod
     def originator(klass, code, identifier, name, address):
@@ -212,12 +220,18 @@ class Tag:
         # Identifier (34 characters)
         # Name (35 characters)
         # Address (3 lines of 35 characters each)
-        return klass(TAG_BENEFICIARY, code + identifier + name + address, 175)
+        marked_identifier = mark_variable(identifier, 34)
+        marked_name = mark_variable(name, 35)
+        address_lines = address.split('\n')
+        marked_address = ''.join([mark_variable(l, 35) for l in address_lines])
+        return klass(TAG_BENEFICIARY, code + marked_identifier + marked_name + marked_address, 175)
 
     @classmethod
     def originator_to_beneficiary(klass, value):
         # up to 4 lines of 35 characters each
-        return klass(TAG_ORIGINATOR_TO_BENEFICIARY, value, 140)
+        lines = value.split('\n')
+        marked_lines = [mark_variable(l, 35) for l in lines]
+        return klass(TAG_ORIGINATOR_TO_BENEFICIARY, ''.join(marked_lines), 140)
 
     def __init__(self, name, value, max_length):
         self.name = name
@@ -243,3 +257,10 @@ def make_space(space_padding=0):
         space += ' '
 
     return space
+
+
+def mark_variable(string, max_length=0):
+    if len(string) == 0 or len(string) > max_length:
+        return string
+
+    return string + VARIABLE_LENGTH_DELIMITER
