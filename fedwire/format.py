@@ -188,11 +188,11 @@ class Tag:
     def sender_institution(klass, routing, name):
         # Sender ABA Number (9 characters)
         # Sender Short Name (18 characters)
-        return klass(TAG_SENDER_DEPOSITORY_INSTITUTION, routing + mark_variable(name, 18), 27)
+        return klass(TAG_SENDER_DEPOSITORY_INSTITUTION, mark_variable(routing + name, 27), 27)
 
     @classmethod
     def receiver_institution(klass, routing, name):
-        return klass(TAG_RECEIVER_DEPOSITORY_INSTITUTION, routing + mark_variable(name, 18), 27)
+        return klass(TAG_RECEIVER_DEPOSITORY_INSTITUTION, mark_variable(routing + name, 27), 27)
 
     @classmethod
     def business_function_code(klass, business, transaction=''):
@@ -224,7 +224,7 @@ class Tag:
         marked_name = mark_variable(name, 35)
         address_lines = address.split('\n')
         marked_address = ''.join([mark_variable(l, 35) for l in address_lines])
-        return klass(TAG_BENEFICIARY, code + marked_identifier + marked_name + marked_address, 175)
+        return klass(TAG_ORIGINATOR, code + marked_identifier + marked_name + marked_address, 175)
 
     @classmethod
     def originator_to_beneficiary(klass, value):
