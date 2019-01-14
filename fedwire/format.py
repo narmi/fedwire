@@ -73,7 +73,7 @@ class Tag:
     CODE_BTR = 'BTR'  # Bank Transfer (Beneficiary is a bank)
     CODE_CKS = 'CKS'  # Check Same Day Settlement
     CODE_CTP = 'CTP'  # Customer Transfer Plus
-    CODE_CTR = 'CTR'  # Customer Transfer (not to a bank) Deposit to Sender’s Account
+    CODE_CTR = 'CTR'  # Customer Transfer (not to a bank) Deposit to Sender's Account
     CODE_DRC = 'DRC'  # Customer or Corporate Drawdown Request
     CODE_FFR = 'FFR'  # Fed Funds Returned
     CODE_FFS = 'FFS'  # Fed Funds Sold
