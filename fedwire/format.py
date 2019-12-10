@@ -180,7 +180,7 @@ class Tag:
         # 12 numeric, right-justified with leading zeros, an implied decimal
         # point and no commas; e.g., $12,345.67 becomes 000001234567
         cents = Decimal('0.01')
-        amount = value.quantize(cents, ROUND_HALF_UP) * 100
+        amount = value.quantize(cents, ROUND_HALF_UP)
         formatted_amount = str(amount).replace('.', '').zfill(12)
         return klass(TAG_AMOUNT, formatted_amount, 12)
 
