@@ -13,8 +13,8 @@ setuptools.setup(
         version=version,
         description='{0}\n\n{1}'.format(description, history),
         author='Narmi',
-        author_email='support@naritech.com',
-        url='https://github.com/narmitech/fedwire-python',
+        author_email='support@narmi.com',
+        url='https://github.com/narmi/fedwire',
         install_requires=[],
         extras_require={
             'dev': [
