@@ -22,7 +22,7 @@ class TestEntry(TestCase):
 
     def test_line(self):
         line = self.entry.line
-        expected_line = '{1500}30        P {1510}1000{1520}20191210       4      {2000}000000001000{3100}211111086*{3400}011111390Bank of America**{3600}CTR'  # noqa
+        expected_line = '{1500}30        P {1510}1000{1520}20250203       4      {2000}000000001000{3100}211111086*{3400}011111390Bank of America**{3600}CTR'  # noqa
         self.assertEqual(expected_line, line)
 
     def test_invalid(self):
@@ -46,6 +46,10 @@ class TestTag(TestCase):
     def test_sender_supplied_information(self):
         tag = Tag.sender_supplied_information(production=True)
         self.assertEqual('{1500}30        P ', str(tag))
+    
+    def test_sender_supplied_information_variable_length(self):
+        tag = Tag.sender_supplied_information(production=True, length=10)
+        self.assertEqual('{1500}30      P ', str(tag))
 
     def test_type(self):
         tag = Tag.type(Tag.TYPE_FUNDS_TRANSFER, Tag.SUBTYPE_BASIC_FUNDS_TRANSFER)

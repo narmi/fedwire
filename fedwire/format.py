@@ -152,8 +152,8 @@ class Tag:
     ID_OTHER_IDENTIFICATION = '9'
 
     @classmethod
-    def sender_supplied_information(klass, production=False, resend=False):
-        user_request_correlation = make_space(8)  # all spaces is blank
+    def sender_supplied_information(klass, production=False, resend=False, length=12):
+        user_request_correlation = make_space(length - 4)  # all spaces is blank
         environment = ENVIRONMENT_PRODUCTION if production else ENVIRONMENT_TEST
         duplication = DUPLICATION_RESEND if resend else DUPLICATION_ORIGINAL
         return klass(
